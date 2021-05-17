@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Masters;
+use App\Models\Master;
 
 class MasterController extends Controller
 {
@@ -15,7 +15,7 @@ class MasterController extends Controller
     public function index()
     {
         $title = "Masters";
-        $masters = Masters::orderBy('created_at', 'desc')->paginate(20);
+        $masters = Master::orderBy('created_at', 'desc')->paginate(20);
         return view('masters.index')->with('title', $title)
                                     ->with('masters',$masters);
     }
@@ -45,7 +45,7 @@ class MasterController extends Controller
             'address'=>'required',
         ]);
 
-        $master = new Masters;
+        $master = new Master;
         $master->name = $request->input('name');
         $master->prefix = $request->input('prefix');
         $master->user_id = auth()->user()->id;

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Masters;
-use App\Models\Challans;
-use App\Models\Items;
+use App\Models\Master;
+use App\Models\Challan;
+use App\Models\Item;
 use Illuminate\Broadcasting\Channel;
 
 class ChallanController extends Controller
@@ -18,7 +18,7 @@ class ChallanController extends Controller
     public function index()
     {
         $title = "Challans";
-        $challans = Challans::where('user_id', auth()->user()->id)->get();
+        $challans = Challan::where('user_id', auth()->user()->id)->get();
 
         return view('challan.index')->with('title', $title)
                                     ->with('challans', $challans);
@@ -36,7 +36,7 @@ class ChallanController extends Controller
     {
         $title = "Add Challan";
         $id = auth()->user()->id;
-        $masters = Masters::where('user_id',$id)->get();
+        $masters = Master::where('user_id',$id)->get();
         return view('challan.add')->with('title', $title)
                                   ->with('masters', $masters);
     }
@@ -54,8 +54,8 @@ class ChallanController extends Controller
             'date'=>'required',
         ]);
 
-        $master = Masters::find($request->input('customer_id'));
-        $existingChallans = Challans::where('customer_id',$request->input('customer_id'))->count();
+        $master = Master::find($request->input('customer_id'));
+        $existingChallans = Challan::where('customer_id',$request->input('customer_id'))->count();
         if($existingChallans > 0){
             $index_number = $existingChallans+1;
             $index = sprintf('%04d',$existingChallans+1);
@@ -66,7 +66,7 @@ class ChallanController extends Controller
         }
 
 
-        $challan = new Challans;
+        $challan = new Challan;
         $challan->name = $master->prefix . date('y', strtotime($request->input('date'))) . date('y',strtotime($request->input('date').'+ 1 year')) . $index;
         $challan->date = $request->input('date');
         $challan->customer_id = $request->input('customer_id');
@@ -87,7 +87,7 @@ class ChallanController extends Controller
     public function search(Request $request)
     {
         $title = "Challans";
-        $challans = Challans::where('user_id',auth()->user()->id);
+        $challans = Challan::where('user_id',auth()->user()->id);
         if($request->input('search')){
             $challans = $challans->where('name', 'LIKE', "%".$request->input('search')."%");
         }
@@ -105,8 +105,8 @@ class ChallanController extends Controller
      */
     public function show($id)
     {
-        $challan = Challans::find($id);
-        $items = Items::where('challan_id', $id)->get();
+        $challan = Challan::find($id);
+        $items = Item::where('challan_id', $id)->get();
         return view('challan.challan')->with('challan',$challan)
                                       ->with('items',$items);
     }
@@ -119,8 +119,8 @@ class ChallanController extends Controller
      */
     public function edit($id)
     {   $title = 'Edit Challan';
-        $challan = Challans::find($id);
-        $masters = Masters::where('user_id',auth()->user()->id)->get();
+        $challan = Challan::find($id);
+        $masters = Master::where('user_id',auth()->user()->id)->get();
         return view('challan.edit')->with('challan', $challan)
                                    ->with('title', $title)
                                    ->with('masters', $masters);
@@ -140,8 +140,8 @@ class ChallanController extends Controller
             'date'=>'required',
         ]);
 
-        $challan = Challans::find($id);
-        $master = Masters::find($request->input('customer_id'));
+        $challan = Challan::find($id);
+        $master = Master::find($request->input('customer_id'));
         $index = sprintf('%04d',$challan->index);
         $challan->name = $master->prefix . date('y', strtotime($request->input('date'))) . date('y',strtotime($request->input('date').'+ 1 year')) . $index;
         $challan->customer_id = $request->input('customer_id');
@@ -160,8 +160,8 @@ class ChallanController extends Controller
      */
     public function destroy($id)
     {
-        Items::where('challan_id',$id)->delete();
-        $challan = Challans::find($id);
+        Item::where('challan_id',$id)->delete();
+        $challan = Challan::find($id);
         $challan->delete();
 
         return redirect('/challan')->with('success', 'Challan Deleted!');
@@ -183,7 +183,7 @@ class ChallanController extends Controller
             'challan_id'=>'required'
         ]);
 
-        $item = new Items;
+        $item = new Item;
         $item->name = $request->input('name');
         $item->unit = $request->input('unit');
         $item->price = $request->input('price');
@@ -192,8 +192,8 @@ class ChallanController extends Controller
         $item->challan_id = $request->input('challan_id');
         $item->save();
 
-        $challan = Challans::find($request->input('challan_id'));
-        $challan_items = Items::where('challan_id', $request->input('challan_id'))->get();
+        $challan = Challan::find($request->input('challan_id'));
+        $challan_items = Item::where('challan_id', $request->input('challan_id'))->get();
         $temp = 0;
         foreach ($challan_items as $element) {
             $temp = $temp + $element->amount;
@@ -210,11 +210,11 @@ class ChallanController extends Controller
             'challan_id'=> 'required'
         ]);
 
-        $item = Items::find($id);
+        $item = Item::find($id);
         $item->delete();
 
-        $challan = Challans::find($request->input('challan_id'));
-        $challan_items = Items::where('challan_id', $request->input('challan_id'))->get();
+        $challan = Challan::find($request->input('challan_id'));
+        $challan_items = Item::where('challan_id', $request->input('challan_id'))->get();
         $temp = 0;
         foreach ($challan_items as $element) {
             $temp = $temp + $element->amount;
@@ -227,7 +227,7 @@ class ChallanController extends Controller
 
     public function print($id){
 
-        $challan = Challans::find($id);
+        $challan = Challan::find($id);
 
         return view('challan.print')->with('challan',$challan);
     }
