@@ -44,6 +44,6 @@ class User extends Authenticatable
     ];
 
     public function masters(){
-        return $this->hasMany(Masters::class, 'user_id');
+        return $this->hasMany(Master::class, 'user_id');
     }
 }

@@ -28,7 +28,7 @@ class Master extends Model
     ];
 
     public function user() {
-        return $this->belongsTo(Masters::class, 'user_id');
+        return $this->belongsTo(Master::class, 'user_id');
     }
 
     public function challans() {

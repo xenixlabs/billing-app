@@ -29,10 +29,10 @@ class Challan extends Model
     ];
 
     public function master() {
-        return $this->belongsTo(Masters::class,'customer_id');
+        return $this->belongsTo(Master::class,'customer_id');
     }
 
     public function items() {
-        return $this->hasMany(Items::class,'challan_id');
+        return $this->hasMany(Item::class,'challan_id');
     }
 }
