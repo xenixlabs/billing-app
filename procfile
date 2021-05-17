@@ -1,2 +1,2 @@
 web: vendor/bin/heroku-php-apache2 public/
-process1: php artisan serve
+web: php artisan serve
