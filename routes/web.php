@@ -19,21 +19,28 @@ Route::get('/', function () {
 });
 
 // Dashboard Routes
-Route::get('/dashboard', 'DashboardController@index')->middleware('auth');
+Route::get('/dashboard', 'DashboardController@index')->middleware('auth')
+                                                     ->middleware('cors');
 
 // Masters Routes
 Route::resource('masters', 'MasterController')->middleware('auth');
 
 // Challan Routes
-Route::post('challan/item/store','ChallanController@storeItems')->middleware('auth');
-Route::post('challan/item/delete/{id}','ChallanController@deleteItems')->middleware('auth');
-Route::get('challan/print/{id}','ChallanController@print')->middleware('auth');
-Route::get('challan/search', 'ChallanController@search')->middleware('auth');
-Route::resource('challan', 'ChallanController')->middleware('auth');
+Route::post('challan/item/store','ChallanController@storeItems')->middleware('auth')
+                                                                ->middleware('cors');
+Route::post('challan/item/delete/{id}','ChallanController@deleteItems')->middleware('auth')
+                                                                       ->middleware('cors');
+Route::get('challan/print/{id}','ChallanController@print')->middleware('auth')
+                                                          ->middleware('cors');
+Route::get('challan/search', 'ChallanController@search')->middleware('auth')
+                                                        ->middleware('cors');
+Route::resource('challan', 'ChallanController')->middleware('auth')
+                                               ->middleware('cors');
 
 
 // Report Routes
-Route::get('/monthly-report', 'ReportController@index')->middleware('auth');
+Route::get('/monthly-report', 'ReportController@index')->middleware('auth')
+                                                       ->middleware('cors');
 
 //Reset Password
 Route::get('/reset-password', function(){
