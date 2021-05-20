@@ -9,9 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script async src="https://ackeemain-production.up.railway.app/tracker.js" data-ackee-server="https://ackeemain-production.up.railway.app" data-ackee-domain-id="4e21189c-e8c8-4e67-961f-0aa8fcfe9956"></script>
-
-
     <title>{{ config('app.name', 'Laravel') }}</title>
     {{-- <script src="{{ asset('js/app.js') }}" ></script> --}}
 
