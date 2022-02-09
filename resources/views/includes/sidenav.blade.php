@@ -6,7 +6,7 @@
             <i class="fas fa-laugh-wink"></i>
         </div>
         <div class="mx-3 sidebar-brand-text">sckycap</div> --}}
-        <img src="{{ asset('img/webstatic-digital.png') }}" alt="" height="380%" width="auto" >
+        <img src="{{ asset('img/profile.png') }}" alt="" height="380%" width="auto" >
 
     </a>
 
